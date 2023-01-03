@@ -14,7 +14,7 @@ public:
 		list_size = n;
 	}
 
-	__device__ virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override;
+	__device__ virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
 
 public:
 	hittable** list;
@@ -23,7 +23,7 @@ public:
 };
 
 
-__device__ bool hittable_list::hit(const ray& r, double t_min, double t_max, hit_record& rec) const {
+__device__ bool hittable_list::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
 	hit_record temp_rec;
 	bool hit_anything = false;
 	auto closest_so_far = t_max;

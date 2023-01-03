@@ -58,13 +58,13 @@ public:
 
 	}
 
-	__host__ __device__ inline static vec3 random() {
-		return vec3(random_float(), random_float(), random_float());
-	}
+	//__host__ __device__ inline static vec3 random() {
+	//	return vec3(random_float(), random_float(), random_float());
+	//}
 
-	__host__ __device__ inline static vec3 random(float min, float max) {
-		return vec3(random_float(min, max), random_float(min, max), random_float(min, max));
-	}
+	//__host__ __device__ inline static vec3 random(float min, float max) {
+	//	return vec3(random_float(min, max), random_float(min, max), random_float(min, max));
+	//}
 
 	__host__ __device__ bool near_zero() const {
 		//Return true if the vector is close to zero in all dimensions
@@ -79,7 +79,7 @@ public:
 //Type aliases for vec3
 
 using point3 = vec3; //3D point
-//using color = vec3;  //RGB colour
+using color = vec3;  //RGB colour
 
 
 
@@ -130,25 +130,29 @@ __host__ __device__ inline vec3 unit_vector(vec3 v) {
 	return v / v.length();
 }
 
-__host__ __device__ point3 random_in_unit_sphere() {
+__device__ point3 random_in_unit_sphere(curandState* local_rand_state) {
+	vec3 p;
 	while (1) {
-		auto p = vec3::random(-1, 1);
-		if (p.length_squared() >= 1) continue;
+		p = 2 * vec3(curand_uniform(local_rand_state),
+					 curand_uniform(local_rand_state),
+					 curand_uniform(local_rand_state)) - vec3(1,1,1);
+
+		if (p.length_squared() >= 1.0f) continue;
 		return p;
 	}
 }
 
-__host__ __device__ inline vec3 random_unit_vector() {
-	return unit_vector(random_in_unit_sphere());
+__device__ inline vec3 random_unit_vector(curandState* local_rand_state) {
+	return unit_vector(random_in_unit_sphere(local_rand_state));
 }
 
-__host__ __device__ vec3 random_in_unit_disk() {
-	while (true) {
-		auto p = vec3(random_float(-1, 1), random_float(-1, 1), 0);
-		if (p.length_squared() >= 1) continue;
-		return p;
-	}
-}
+//__host__ __device__ vec3 random_in_unit_disk() {
+//	while (true) {
+//		auto p = vec3(random_float(-1, 1), random_float(-1, 1), 0);
+//		if (p.length_squared() >= 1) continue;
+//		return p;
+//	}
+//}
 
 __host__ __device__ vec3 reflect(const vec3& v, const vec3& n) {
 	return v - 2 * dot(v, n) * n;

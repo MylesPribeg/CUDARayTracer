@@ -80,8 +80,10 @@
     <CudaCompile Include="main.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.cuh" />
     <ClInclude Include="hittable.cuh" />
     <ClInclude Include="hittable_list.cuh" />
+    <ClInclude Include="material.cuh" />
     <ClInclude Include="ray.cuh" />
     <ClInclude Include="sphere.cuh" />
     <ClInclude Include="utility.h" />

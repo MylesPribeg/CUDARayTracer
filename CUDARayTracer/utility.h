@@ -32,13 +32,13 @@ inline double random_double(double min, double max) {
 	return distribution(generator);
 }*/
 
-inline float random_float() {
-	return rand() / (RAND_MAX + 1.0);
-}
-
-inline float random_float(float min, float max) {
-	return min + (max - min) * random_float();
-}
+//inline float random_float() {
+//	return rand() / (RAND_MAX + 1.0);
+//}
+//
+//inline float random_float(float min, float max) {
+//	return min + (max - min) * random_float();
+//}
 
 inline float clamp(float x, float min, float max) {
 	if (x < min) return min;
