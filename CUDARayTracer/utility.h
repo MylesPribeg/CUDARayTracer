@@ -17,7 +17,7 @@ const float pi = 3.1415926535897932385;
 //Utility Functions
 
 inline float deg_to_rad(float degrees) {
-	return degrees * pi / 180.0;
+	return degrees * pi / 180.0f;
 }
 
 /*inline double random_double() {
@@ -32,10 +32,10 @@ inline double random_double(double min, double max) {
 	return distribution(generator);
 }*/
 
-//inline float random_float() {
-//	return rand() / (RAND_MAX + 1.0);
-//}
-//
+__device__ inline float random_float(curandState* lclRand) {
+	return curand_uniform(lclRand);
+}
+
 //inline float random_float(float min, float max) {
 //	return min + (max - min) * random_float();
 //}

@@ -54,7 +54,7 @@ public:
 	}
 
 	__host__ __device__ float length() const {
-		return sqrt(length_squared());
+		return sqrtf(length_squared());
 
 	}
 
@@ -68,8 +68,8 @@ public:
 
 	__host__ __device__ bool near_zero() const {
 		//Return true if the vector is close to zero in all dimensions
-		const auto s = 1e-8;
-		return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s); //fabs = absolute value
+		const float s = 1e-8;
+		return (fabsf(e[0]) < s) && (fabsf(e[1]) < s) && (fabsf(e[2]) < s); //fabs = absolute value
 	}
 
 	float e[3];
@@ -159,9 +159,22 @@ __host__ __device__ vec3 reflect(const vec3& v, const vec3& n) {
 }
 
 __host__ __device__ vec3 refract(const vec3& uv, const vec3& n, float rior) {//ratio of index of refractions "rior"
-	auto cos_theta = fmin(dot(-uv, n), 1.0);
+	auto cos_theta = fminf(dot(-uv, n), 1.0f);
 	vec3 r_out_perp = rior * (uv + cos_theta * n);
-	vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
+	vec3 r_out_parallel = -sqrtf(fabsf(1.0f - r_out_perp.length_squared())) * n;
 	return r_out_perp + r_out_parallel;
 }
+
+//__device__ bool refract(const vec3& v, const vec3& n, float ni_over_nt, vec3& refracted) {
+//	vec3 uv = unit_vector(v);
+//	float dt = dot(uv, n);
+//	float discriminant = 1.0f - ni_over_nt * ni_over_nt * (1 - dt * dt);
+//	if (discriminant > 0) {
+//		refracted = ni_over_nt * (uv - n * dt) - n * sqrt(discriminant);
+//		return true;
+//	}
+//	else
+//		return false;
+//}
+
 #endif

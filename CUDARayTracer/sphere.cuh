@@ -24,18 +24,18 @@ __device__ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& 
 	vec3 oc = r.origin() - center; //sphere form is: t^2b (dot) b + 2tb (dot) (A - C) + (A - C) (dot)(A - C) - r^2 = 0
 	//since A, C, b, and r are known, it becomes a quadratic eqn with t unknown
 
-	auto a = r.direction().length_squared();//vector dotted with itself is its length^2
-	auto half_b = dot(oc, r.direction());	//some simplification of quadratic formula since b has a factor of 2
-	auto c = oc.length_squared() - radius * radius;
-	auto discriminant = half_b * half_b - a * c;
+	float a = r.direction().length_squared();//vector dotted with itself is its length^2
+	float half_b = dot(oc, r.direction());	//some simplification of quadratic formula since b has a factor of 2
+	float c = oc.length_squared() - radius * radius;
+	float discriminant = half_b * half_b - a * c;
 
 	if (discriminant < 0) {
 		return false;
 	}
-	auto sqrtd = sqrt(discriminant);
+	float sqrtd = sqrtf(discriminant);
 
 	//Find nearest root that lies within acceptable range
-	auto root = (-half_b - sqrtd) / a;
+	float root = (-half_b - sqrtd) / a;
 	if (root <  t_min || root > t_max) {
 		root = (-half_b + sqrtd) / a;
 		if (root < t_min || root > t_max)
