@@ -146,13 +146,13 @@ __device__ inline vec3 random_unit_vector(curandState* local_rand_state) {
 	return unit_vector(random_in_unit_sphere(local_rand_state));
 }
 
-//__host__ __device__ vec3 random_in_unit_disk() {
-//	while (true) {
-//		auto p = vec3(random_float(-1, 1), random_float(-1, 1), 0);
-//		if (p.length_squared() >= 1) continue;
-//		return p;
-//	}
-//}
+__device__ vec3 random_in_unit_disk(curandState* local_rand_state) {
+	while (true) {
+		vec3 p = 2.0f * vec3(curand_uniform(local_rand_state), curand_uniform(local_rand_state), 0) - vec3(1, 1, 0);
+		if (p.length_squared() >= 1) continue;
+		return p;
+	}
+}
 
 __host__ __device__ vec3 reflect(const vec3& v, const vec3& n) {
 	return v - 2 * dot(v, n) * n;

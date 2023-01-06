@@ -16,8 +16,8 @@ const float pi = 3.1415926535897932385;
 
 //Utility Functions
 
-inline float deg_to_rad(float degrees) {
-	return degrees * pi / 180.0f;
+__device__ inline float deg_to_rad(float degrees) {
+	return degrees * 3.1415926535897932385f / 180.0f;
 }
 
 /*inline double random_double() {
